@@ -4,21 +4,12 @@ const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 const router = express.Router();
 
-// Utility function to asynchronously read the contents of db.json
-const readFromFile = (filePath) =>
-  new Promise((resolve, reject) =>
-    fs.readFile(filePath, "utf8", (err, data) =>
-      err ? reject(err) : resolve(data)
-    )
-  );
+// Reads the contents of db.json asynchronously
+const readFromFile = (filePath) => fs.promises.readFile(filePath, "utf8");
 
-// Utility function to asynchronously write data to db.json
+// Writes data to db.json asynchronously
 const writeToFile = (filePath, content) =>
-  new Promise((resolve, reject) =>
-    fs.writeFile(filePath, JSON.stringify(content, null, 4), (err) =>
-      err ? reject(err) : resolve()
-    )
-  );
+  fs.promises.writeFile(filePath, JSON.stringify(content, null, 4));
 
 // GET route for fetching all notes from db.json and returning them in JSON format
 router.get("/", async (req, res) => {
